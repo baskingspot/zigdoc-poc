@@ -2,8 +2,7 @@
 # are first party. A target marked `blocking: false` is shipped when it builds
 # and never stops a release.
 binary: zigdoc
-# zigdoc runs `zig` to find the standard library, so the cask depends on it.
-requires: [zig]
+# requires: [zig] would add zig and a 1.6 GB LLVM for a tool whose users already have zig.
 targets:
   - target: x86_64-linux-musl
     asset: linux-x64

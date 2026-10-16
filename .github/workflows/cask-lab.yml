@@ -70,3 +70,18 @@ jobs:
             fi
             echo "quarantine flag: gone"
           fi
+      - name: Control, macOS only. Without the step, is the flag there?
+        if: runner.os == 'macOS'
+        run: |
+          brew uninstall --cask baskingspot/check/zigdoc-poc
+          # The same cask with the postflight_steps block deleted.
+          awk '/^  # The release binaries/ {skip=1} skip && /^  end$/ {skip=0; next} !skip' cask/zigdoc-poc.rb > control.rb
+          grep -c postflight_steps control.rb || true
+          cp control.rb "$(brew --repository baskingspot/check)/Casks/zigdoc-poc.rb"
+          brew install --cask baskingspot/check/zigdoc-poc
+          path="$(brew --prefix)/bin/zigdoc"
+          if xattr -p com.apple.quarantine "${path}" 2> /dev/null; then
+            echo "control: the quarantine flag IS set without the step"
+          else
+            echo "control: the quarantine flag is NOT set even without the step"
+          fi
