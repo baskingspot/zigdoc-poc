@@ -1,12 +1,6 @@
-# What a release builds. Linux on x86_64 and aarch64, and macOS on aarch64,
-# are first party. A target marked `blocking: false` is shipped when it builds
-# and never stops a release.
+# What a release ships. The names and the archive layout are the org's, set by
+# the shared release workflow. A program names its binary, and its platforms if
+# it ships fewer than the default three: linux-x64, linux-arm64, macos-arm64.
+# windows-x64 is a zip, and nothing else: no cask, no other channel.
 binary: zigdoc
-# requires: [zig] would add zig and a 1.6 GB LLVM for a tool whose users already have zig.
-targets:
-  - target: x86_64-linux-musl
-    asset: linux-x64
-  - target: aarch64-linux-musl
-    asset: linux-arm64
-  - target: aarch64-macos
-    asset: macos-arm64
+platforms: [linux-x64, linux-arm64, macos-arm64, windows-x64]

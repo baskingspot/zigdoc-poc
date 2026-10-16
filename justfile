@@ -40,18 +40,10 @@ fmt:
     oxfmt README.md AGENTS.md .github scripts
     just --fmt
 
-[doc("Build one release target and package it as dist/zigdoc-TAG-ASSET.tar.gz, the layout `mise` unpacks. CI runs it once per target in .github/release.yaml")]
+[doc("Build one release target into the prefix DIR, so the program lands in DIR/bin. The shared release workflow bundles it: the archive name and layout are the org's, not this repo's")]
 [group("release")]
-release-build TARGET ASSET TAG:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    name="zigdoc-{{ TAG }}-{{ ASSET }}"
-    rm -rf "dist/${name}" "dist/${name}.tar.gz"
-    mkdir -p "dist/${name}"
-    zig build -Doptimize=ReleaseFast -Dtarget={{ TARGET }} --prefix "dist/stage-{{ ASSET }}"
-    cp "dist/stage-{{ ASSET }}/bin/zigdoc" "dist/${name}/zigdoc"
-    tar -C dist -czf "dist/${name}.tar.gz" "${name}"
-    rm -rf "dist/stage-{{ ASSET }}"
+release-build TARGET DIR:
+    zig build -Doptimize=ReleaseFast -Dtarget={{ TARGET }} --prefix {{ DIR }}
 
 [doc("Tag a release and push the tag, which starts the release workflow. Checks first: a clean tree on main, level with origin")]
 [group("release")]
