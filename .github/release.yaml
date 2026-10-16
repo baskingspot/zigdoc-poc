@@ -1,0 +1,11 @@
+# What a release builds. Linux on x86_64 and aarch64, and macOS on aarch64,
+# are first party. A target marked `blocking: false` is shipped when it builds
+# and never stops a release.
+binary: zigdoc
+targets:
+  - target: x86_64-linux-musl
+    asset: linux-x64
+  - target: aarch64-linux-musl
+    asset: linux-arm64
+  - target: aarch64-macos
+    asset: macos-arm64

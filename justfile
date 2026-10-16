@@ -27,7 +27,7 @@ lint:
     ziglint
     zig fmt --check src build.zig build_readme.zig
     nix fmt -- --ci
-    oxfmt --check README.md AGENTS.md .github
+    oxfmt --check README.md AGENTS.md .github scripts
     actionlint
     zizmor .
     just --fmt --check
@@ -37,8 +37,33 @@ lint:
 fmt:
     zig fmt src build.zig build_readme.zig
     nix fmt
-    oxfmt README.md AGENTS.md .github
+    oxfmt README.md AGENTS.md .github scripts
     just --fmt
+
+[doc("Build one release target and package it as dist/zigdoc-TAG-ASSET.tar.gz, the layout `mise` unpacks. CI runs it once per target in .github/release.yaml")]
+[group("release")]
+release-build TARGET ASSET TAG:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    name="zigdoc-{{ TAG }}-{{ ASSET }}"
+    rm -rf "dist/${name}" "dist/${name}.tar.gz"
+    mkdir -p "dist/${name}"
+    zig build -Doptimize=ReleaseFast -Dtarget={{ TARGET }} --prefix "dist/stage-{{ ASSET }}"
+    cp "dist/stage-{{ ASSET }}/bin/zigdoc" "dist/${name}/zigdoc"
+    tar -C dist -czf "dist/${name}.tar.gz" "${name}"
+    rm -rf "dist/stage-{{ ASSET }}"
+
+[doc("Tag a release and push the tag, which starts the release workflow. Checks first: a clean tree on main, level with origin")]
+[group("release")]
+release VERSION:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    test -z "$(git status --porcelain)" || { echo "the tree is not clean" >&2; exit 1; }
+    test "$(git branch --show-current)" = main || { echo "not on main" >&2; exit 1; }
+    git fetch --quiet origin main
+    test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" || { echo "main is not level with origin" >&2; exit 1; }
+    git tag -s "v{{ VERSION }}" -m "v{{ VERSION }}"
+    git push origin "v{{ VERSION }}"
 
 [doc("Everything CI runs")]
 [group("ci")]

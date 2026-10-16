@@ -4,3 +4,4 @@ zig-pkg/
 .direnv/
 .envrc.local
 result
+dist/

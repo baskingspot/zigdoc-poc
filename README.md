@@ -1,3 +1,5 @@
+> **Proof of concept. This is not the zigdoc project.** It is a copy of [rockorager/zigdoc](https://github.com/rockorager/zigdoc) (MIT, Copyright Tim Culverhouse) used to test how baskingspot publishes programs: tarballs, checksums, attestations, and install channels. Use the upstream project. This repository will be deleted once the pipeline is proven.
+
 # zigdoc
 
 A command-line tool to view documentation for Zig standard library symbols.
