@@ -16,7 +16,7 @@ jobs:
       contents: write
       id-token: write
       attestations: write
-    uses: baskingspot/gh-actions/.github/workflows/release.yml@1ef5d5f77a8f8304863cc8d021a2d4962634f42c # main
+    uses: baskingspot/gh-actions/.github/workflows/release.yml@79e6fa0dd9aea0cb438ff7dcb74c987885ecfe77 # main
     secrets:
       CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
