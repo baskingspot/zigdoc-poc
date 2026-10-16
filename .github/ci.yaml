@@ -1,0 +1,9 @@
+jobs:
+  - recipe: test
+  - recipe: package
+  - recipe: lint
+  - recipe: test
+    runners: [ubuntu-26.04-arm]
+  - recipe: test
+    runners: [macos-26]
+    blocking: false
