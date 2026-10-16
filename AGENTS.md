@@ -12,6 +12,7 @@ Use `zigdoc` to discover current APIs for the Zig standard library and any
 third-party dependencies before coding.
 
 Examples:
+
 ```bash
 zigdoc std.fs
 zigdoc std.posix.getuid
@@ -119,6 +120,7 @@ zigdoc <module>.<symbol>
 ## Current Zig Patterns
 
 **ArrayList:**
+
 ```zig
 var list: std.ArrayList(u32) = .empty;
 defer list.deinit(allocator);
@@ -126,6 +128,7 @@ try list.append(allocator, 42);
 ```
 
 **HashMap/StringHashMap (default to unmanaged):**
+
 ```zig
 var map: std.StringHashMapUnmanaged(u32) = .empty;
 defer map.deinit(allocator);
@@ -133,6 +136,7 @@ try map.put(allocator, "key", 42);
 ```
 
 **stdout/stderr writer:**
+
 ```zig
 var buf: [4096]u8 = undefined;
 var writer = std.fs.File.stdout().writer(&buf);
@@ -141,6 +145,7 @@ try writer.interface.print("hello {s}\n", .{"world"});
 ```
 
 **JSON writing:**
+
 ```zig
 var buf: [4096]u8 = undefined;
 var writer = std.fs.File.stdout().writer(&buf);
@@ -154,6 +159,7 @@ try jw.write(my_struct);
 ```
 
 **Allocating writer:**
+
 ```zig
 var writer: std.Io.Writer.Allocating = .init(allocator);
 defer writer.deinit();
