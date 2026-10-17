@@ -42,7 +42,6 @@
             ];
 
             packages = [
-              pkgs.oxfmt
               inputs.zon2nix.packages.${system}.zon2nix
             ];
           };
